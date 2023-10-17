@@ -1,8 +1,6 @@
 import subprocess
 import os
 
-os.environ["VENV_DIR"] = os.path.join(os.getcwd(), ".venv")
-
 os.environ["REGION"] = "us-central1"
 os.environ["PROJECT_ID"] = "pg-cvs-sandbox"
 
