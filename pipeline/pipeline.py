@@ -18,7 +18,7 @@ import os
 def add_one_op(value: int) -> int:
     import logging
 
-    # Private package gar-cvs-test-pablogaeta from GAR
+    # Import private package (os.environ["PYTHON_PACKAGE_NAME"]) from GAR
     from example import add_one
 
     value_plus_one = add_one(value)

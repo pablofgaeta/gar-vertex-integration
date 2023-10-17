@@ -48,10 +48,11 @@ deploymentSpec:
 
           '
         - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
-          \ *\n\ndef add_one_op(value: int) -> int:\n    import logging\n\n    # Private\
-          \ package gar-cvs-test-pablogaeta from GAR\n    from example import add_one\n\
-          \n    value_plus_one = add_one(value)\n    logging.info(f\"add_one({value})\
-          \ = {value_plus_one}\")\n\n    return int(value_plus_one)\n\n"
+          \ *\n\ndef add_one_op(value: int) -> int:\n    import logging\n\n    # Import\
+          \ private package (os.environ[\"PYTHON_PACKAGE_NAME\"]) from GAR\n    from\
+          \ example import add_one\n\n    value_plus_one = add_one(value)\n    logging.info(f\"\
+          add_one({value}) = {value_plus_one}\")\n\n    return int(value_plus_one)\n\
+          \n"
         image: us-central1-docker.pkg.dev/pg-cvs-sandbox/gar-vertex-repo/gar-base-image
 pipelineInfo:
   description: A pipeline that imports a python package from GAR.
