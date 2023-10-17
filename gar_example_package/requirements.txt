@@ -1,0 +1,5 @@
+twine
+build
+keyring
+keyrings.google-artifactregistry-auth
+# setuptools>=61.0

@@ -1,0 +1,78 @@
+# PIPELINE DEFINITION
+# Name: gar-python-pipeline
+# Description: A pipeline that imports a python package from GAR.
+# Inputs:
+#    value: int
+components:
+  comp-add-one-op:
+    executorLabel: exec-add-one-op
+    inputDefinitions:
+      parameters:
+        value:
+          parameterType: NUMBER_INTEGER
+    outputDefinitions:
+      parameters:
+        Output:
+          parameterType: NUMBER_INTEGER
+deploymentSpec:
+  executors:
+    exec-add-one-op:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - add_one_op
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location --index-url https://pypi.org/simple\
+          \ --trusted-host https://pypi.org/simple --extra-index-url https://us-central1-python.pkg.dev/pg-cvs-sandbox/gar-python-repo/simple\
+          \ --trusted-host https://us-central1-python.pkg.dev/pg-cvs-sandbox/gar-python-repo/simple\
+          \ 'kfp==2.3.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"\
+          3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location --index-url\
+          \ https://pypi.org/simple --trusted-host https://pypi.org/simple --extra-index-url\
+          \ https://us-central1-python.pkg.dev/pg-cvs-sandbox/gar-python-repo/simple\
+          \ --trusted-host https://us-central1-python.pkg.dev/pg-cvs-sandbox/gar-python-repo/simple\
+          \ 'gar-example-package' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef add_one_op(value: int) -> int:\n    import logging\n\n    # Private\
+          \ package gar-cvs-test-pablogaeta from GAR\n    from example import add_one\n\
+          \n    value_plus_one = add_one(value)\n    logging.info(f\"add_one({value})\
+          \ = {value_plus_one}\")\n\n    return int(value_plus_one)\n\n"
+        image: us-central1-docker.pkg.dev/pg-cvs-sandbox/gar-vertex-repo/gar-base-image
+pipelineInfo:
+  description: A pipeline that imports a python package from GAR.
+  name: gar-python-pipeline
+root:
+  dag:
+    tasks:
+      add-one-op:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-add-one-op
+        inputs:
+          parameters:
+            value:
+              componentInputParameter: value
+        taskInfo:
+          name: add-one-op
+  inputDefinitions:
+    parameters:
+      value:
+        parameterType: NUMBER_INTEGER
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.3.0

@@ -1,8 +1,2 @@
-kfp
-google-cloud-aiplatform
-
-twine
-build
-
 keyring
 keyrings.google-artifactregistry-auth

@@ -1,0 +1,13 @@
+steps:
+    - name: python:3.9
+      entrypoint: /bin/bash
+      args:
+          - -c
+          - |
+              pip install --upgrade pip
+              pip install -r requirements.txt
+              mkdir -p ~/.config/pip
+              printf "[distutils]\nindex-servers = \n    ${_REPO}\n\n[${_REPO}]\nrepository: https://${_REGION}-python.pkg.dev/${PROJECT_ID}/${_REPO}/\n" > ~/.pypirc
+              printf "[global]\nextra-index-url = https://${_REGION}-python.pkg.dev/${PROJECT_ID}/${_REPO}/simple/\n" > ~/.config/pip/pip.conf
+              python -m build
+              twine upload --repository-url https://${_REGION}-python.pkg.dev/${PROJECT_ID}/${_REPO}/ dist/*

@@ -1,3 +1,7 @@
+# Project ignores
+.pypirc.snippet
+pip.conf.snippet
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
