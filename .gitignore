@@ -2,6 +2,9 @@
 .pypirc.snippet
 pip.conf.snippet
 
+# VSCode
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

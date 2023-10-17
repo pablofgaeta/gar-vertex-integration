@@ -1,18 +1,12 @@
 import subprocess
 import os
+import dotenv
 
-os.environ["REGION"] = "us-central1"
-os.environ["PROJECT_ID"] = "pg-cvs-sandbox"
+dotenv.load_dotenv()
 
-os.environ["GCS_BUCKET"] = "gs://cvs_demo_bucket"
-os.environ["GCS_PIPELINE_ROOT"] = f"{os.environ['GCS_BUCKET']}/gar-pipeline"
-os.environ["PIPELINE_DISPLAY_NAME"] = "gar-python-pipeline"
-
-os.environ["PYTHON_REPO_NAME"] = "gar-python-repo"
-os.environ["PYTHON_PACKAGE_NAME"] = "gar-example-package"
-
-os.environ["IMAGE_REPO_NAME"] = "gar-vertex-repo"
-os.environ["IMAGE_NAME"] = "gar-base-image"
+os.environ[
+    "GCS_PIPELINE_ROOT"
+] = f"{os.environ['GCS_BUCKET']}/{os.environ['PIPELINE_ROOT_PREFIX']}"
 
 os.environ[
     "GAR_AUTH_IMAGE_URL"

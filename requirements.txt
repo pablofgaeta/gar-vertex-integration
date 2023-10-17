@@ -6,3 +6,5 @@ build
 
 keyring
 keyrings.google-artifactregistry-auth
+
+python-dotenv
