@@ -28,7 +28,7 @@ os.environ["GAR_PYTHON_INDEX"] = f"{os.environ['GAR_PYTHON_URL']}/simple"
 
 def main():
     # Note only run if GCS bucket and AR repos don't already exist
-    # setup()
+    setup()
 
     # Note the package version must be modified for future uploads
     build_and_upload_python_package()
